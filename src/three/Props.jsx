@@ -2,22 +2,25 @@
 // Each takes { position, rotationY, palette } and is purely presentational -
 // placement/counts are decided by SceneGenerator using layout + ambiance data.
 
-function PalmTree({ palette }) {
+function PalmTree() {
+  // Tall, thin trunk with a slight lean and a compact frond burst at the top -
+  // closer to the Washingtonia palms lining the real Promenade des Anglais
+  // than a short bushy cartoon palm.
   return (
-    <group>
-      <mesh position={[0, 1.5, 0]} castShadow>
-        <cylinderGeometry args={[0.12, 0.18, 3, 6]} />
-        <meshStandardMaterial color="#8a6640" />
+    <group rotation={[0, 0, 0.05]}>
+      <mesh position={[0, 2.75, 0]} castShadow>
+        <cylinderGeometry args={[0.07, 0.13, 5.5, 6]} />
+        <meshStandardMaterial color="#8a7455" />
       </mesh>
-      {[0, 1, 2, 3, 4].map((i) => (
+      {[0, 1, 2, 3, 4, 5].map((i) => (
         <mesh
           key={i}
-          position={[0, 3, 0]}
-          rotation={[0.9, (i / 5) * Math.PI * 2, 0]}
+          position={[0, 5.5, 0]}
+          rotation={[1.1, (i / 6) * Math.PI * 2, 0]}
           castShadow
         >
-          <coneGeometry args={[0.4, 1.6, 4]} />
-          <meshStandardMaterial color="#2f7d4f" />
+          <coneGeometry args={[0.18, 1.9, 4]} />
+          <meshStandardMaterial color="#3f8a4f" />
         </mesh>
       ))}
     </group>

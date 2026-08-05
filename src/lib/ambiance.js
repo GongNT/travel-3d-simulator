@@ -5,6 +5,11 @@ const SYSTEM_PROMPT = `You read a handful of visitor reviews for a real-world lo
 a structured spec for a STYLIZED, low-poly 3D scene - not a photorealistic reconstruction. You are choosing \
 from a fixed catalog of building blocks, not inventing new geometry.
 
+If you recognize the named location from your own knowledge (not just the reviews), use that knowledge to \
+pick a more accurate palette and prop mix - e.g. the real Promenade des Anglais in Nice has pastel cream/pink \
+building facades and a turquoise sea, not generic blue. Fall back to the reviews alone if you don't recognize \
+the place.
+
 Respond with a single JSON object, no markdown, matching exactly this shape:
 
 {
