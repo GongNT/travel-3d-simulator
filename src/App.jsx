@@ -2,6 +2,7 @@ import { useState } from 'react'
 import PreferencesForm from './components/PreferencesForm'
 import ResultsList from './components/ResultsList'
 import WalkScene from './three/WalkScene'
+import { MountainSilhouette, PalmSilhouette } from './components/Decor'
 import { parsePreferences } from './lib/preferences'
 import { scoreSpots, explainRanking } from './lib/scoring'
 import { SPOTS } from './data/spots'
@@ -52,6 +53,9 @@ export default function App() {
     <div className="app">
       {screen !== 'walk' && (
         <header className="app-header">
+          <MountainSilhouette />
+          <PalmSilhouette side="left" />
+          <PalmSilhouette side="right" />
           <h1>Nice, France - AI Travel & Walk Simulator</h1>
           <p className="subtitle">
             Describe your trip, get a ranked recommendation, then walk the top spot in 3D.

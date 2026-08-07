@@ -1,17 +1,117 @@
+:root {
+  --ocean-deep: #0b4f6c;
+  --ocean: #0c8599;
+  --ocean-light: #4fb3c9;
+  --forest-deep: #1b4332;
+  --forest: #2d6a4f;
+  --forest-light: #74c69d;
+  --sun: #f4a300;
+  --sun-light: #ffcf5c;
+  --coral: #f2724b;
+  --sand: #fdf6e6;
+  --sand-dark: #f2e2bf;
+  --ink: #1f2d27;
+  --ink-soft: #4a5d55;
+}
+
 .app {
-  max-width: 900px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-  color: #1a1a1a;
+  padding: 0 1.5rem 4rem;
+  color: var(--ink);
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+.app-header {
+  margin: 0 -1.5rem 2rem;
+  padding: 3rem 1.5rem 3.5rem;
+  background: linear-gradient(120deg, var(--ocean-deep) 0%, var(--ocean) 55%, var(--forest) 100%);
+  color: #fff;
+  border-radius: 0 0 32px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--sun-light) 0%, var(--sun) 70%, transparent 72%);
+  opacity: 0.9;
+}
+
+.app-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 40px;
+  background: var(--sand);
+  clip-path: polygon(
+    0% 60%, 5% 50%, 10% 60%, 15% 45%, 20% 60%, 25% 50%, 30% 60%,
+    35% 45%, 40% 60%, 45% 50%, 50% 60%, 55% 45%, 60% 60%, 65% 50%,
+    70% 60%, 75% 45%, 80% 60%, 85% 50%, 90% 60%, 95% 45%, 100% 60%,
+    100% 100%, 0% 100%
+  );
 }
 
 .app-header h1 {
-  font-size: 1.7rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.9rem;
+  margin-bottom: 0.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.decor-mountains {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  width: 100%;
+  height: 130px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.decor-palm {
+  position: absolute;
+  bottom: 12px;
+  height: 220px;
+  width: auto;
+  z-index: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.15));
+}
+
+.decor-palm--left {
+  left: -10px;
+  transform: scaleX(-1);
+}
+
+.decor-palm--right {
+  right: -10px;
+}
+
+@media (max-width: 640px) {
+  .decor-palm {
+    height: 140px;
+  }
+}
+
+.app-header .subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
 }
 
 .subtitle {
-  color: #555;
+  color: var(--ink-soft);
   margin-bottom: 2rem;
 }
 
@@ -20,19 +120,32 @@
   flex-direction: column;
   gap: 0.75rem;
   max-width: 600px;
+  background: #fff;
+  border: 1px solid var(--sand-dark);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(11, 79, 108, 0.08);
 }
 
 .preferences-form label {
-  font-weight: 600;
+  font-weight: 700;
+  color: var(--forest-deep);
 }
 
 .preferences-form textarea {
   font-family: inherit;
   font-size: 1rem;
   padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  border-radius: 10px;
+  border: 1px solid var(--sand-dark);
+  background: var(--sand);
   resize: vertical;
+}
+
+.preferences-form textarea:focus {
+  outline: none;
+  border-color: var(--ocean);
+  box-shadow: 0 0 0 3px rgba(12, 133, 153, 0.15);
 }
 
 .preferences-form button,
@@ -40,39 +153,51 @@
 .walk-scene button {
   font-family: inherit;
   font-size: 1rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
   border: none;
-  background: #1a5fb4;
-  color: white;
+  background: linear-gradient(135deg, var(--sun) 0%, var(--coral) 100%);
+  color: #fff;
   cursor: pointer;
   width: fit-content;
+  box-shadow: 0 4px 12px rgba(242, 114, 75, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.preferences-form button:hover:not(:disabled),
+.results-list .spot-card button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(242, 114, 75, 0.45);
 }
 
 .preferences-form button:disabled {
   opacity: 0.6;
   cursor: default;
+  box-shadow: none;
 }
 
 .back-button {
   background: transparent !important;
-  color: #1a5fb4 !important;
+  color: var(--ocean-deep) !important;
   padding: 0.4rem 0 !important;
   margin-bottom: 1rem;
+  box-shadow: none !important;
+  font-weight: 700 !important;
 }
 
 .error-text {
-  color: #c0392b;
+  color: #b3261e;
 }
 
 .prefs-summary {
   font-style: italic;
-  color: #555;
+  color: var(--ink-soft);
 }
 
 .explanation {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--ink);
 }
 
 .cards {
@@ -81,17 +206,19 @@
 }
 
 .spot-card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 1rem 1.25rem;
+  border: 1px solid var(--sand-dark);
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.2rem 1.4rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  box-shadow: 0 6px 18px rgba(27, 67, 50, 0.06);
 }
 
 .spot-card--top {
-  border-color: #1a5fb4;
-  box-shadow: 0 0 0 1px #1a5fb4;
+  border-color: var(--sun);
+  box-shadow: 0 0 0 2px var(--sun-light), 0 10px 24px rgba(244, 163, 0, 0.2);
 }
 
 .spot-card-header {
@@ -102,19 +229,20 @@
 
 .spot-card-header h3 {
   margin: 0;
+  color: var(--forest-deep);
 }
 
 .score-badge {
-  background: #1a5fb4;
+  background: linear-gradient(135deg, var(--ocean) 0%, var(--forest) 100%);
   color: white;
   border-radius: 999px;
-  padding: 0.2rem 0.6rem;
+  padding: 0.25rem 0.7rem;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .tagline {
-  color: #555;
+  color: var(--ink-soft);
   margin: 0;
 }
 
@@ -122,7 +250,7 @@
   display: flex;
   gap: 0.75rem;
   font-size: 0.85rem;
-  color: #777;
+  color: var(--ocean-deep);
 }
 
 .walk-scene {
@@ -142,10 +270,10 @@
   top: 1rem;
   left: 1rem;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: #1a1a1a !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: var(--ink) !important;
   padding: 0.5rem 1rem !important;
-  border-radius: 8px;
+  border-radius: 999px;
 }
 
 .scene-overlay {
@@ -158,13 +286,13 @@
   justify-content: center;
   text-align: center;
   color: white;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(11, 46, 40, 0.4);
   gap: 0.5rem;
   pointer-events: none;
 }
 
 .scene-overlay--hint {
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(11, 46, 40, 0.5);
 }
 
 .scene-overlay p {
@@ -173,7 +301,7 @@
 
 .scene-overlay p:first-child {
   font-size: 1.4rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .mood-text {
@@ -182,6 +310,7 @@
 
 .hint-text {
   font-size: 0.9rem;
-  opacity: 0.85;
+  opacity: 0.9;
   margin-top: 1rem !important;
+  color: var(--sun-light);
 }
