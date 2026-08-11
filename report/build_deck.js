@@ -64,10 +64,10 @@ function footer(slide, dark = false) {
   slide.addText('Craft a transparent plan. Roam the winner in 3D.', {
     x: 0.9, y: 4.0, w: 10.5, h: 0.6, fontFace: SAFE_BODY, fontSize: 18, italic: true, color: 'CFE3E8', margin: 0,
   });
-  slide.addText('Nonthapat Tangjeerawong  ·  [Teammate Name]', {
-    x: 0.9, y: 5.9, w: 10, h: 0.4, fontFace: SAFE_BODY, fontSize: 15, color: WHITE, margin: 0,
+  slide.addText('Nonthapat T.  ·  Jeeraporn Y.  ·  Chaiphan N.  ·  Jirun T.', {
+    x: 0.9, y: 5.9, w: 11.5, h: 0.4, fontFace: SAFE_BODY, fontSize: 15, color: WHITE, margin: 0,
   });
-  slide.addText('[Course Name / Number]  ·  Final Project Presentation', {
+  slide.addText('Generative AI  ·  Final Project Presentation', {
     x: 0.9, y: 6.25, w: 10, h: 0.4, fontFace: SAFE_BODY, fontSize: 13, color: '9FB8B0', margin: 0,
   });
   footer(slide, true);

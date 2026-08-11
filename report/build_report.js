@@ -183,10 +183,10 @@ const doc = new Document({
         new TextRun({ text: 'Final Project Report', size: 28, italics: true }),
       ]}),
       new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 800 }, children: [
-        new TextRun({ text: 'Team: Nonthapat Tangjeerawong, [Teammate Name — please fill in]', size: 24 }),
+        new TextRun({ text: 'Team: Nonthapat T., Jeeraporn Y., Chaiphan N., Jirun T.', size: 24 }),
       ]}),
       new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 100 }, children: [
-        new TextRun({ text: 'Course: [Course Name / Number — please fill in]', size: 24 }),
+        new TextRun({ text: 'Course: Generative AI', size: 24 }),
       ]}),
       new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 100 }, children: [
         new TextRun({ text: 'Date: [Submission Date — please fill in]', size: 24 }),
