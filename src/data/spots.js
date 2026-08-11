@@ -3,6 +3,11 @@
 // set of authored reviews (for the LLM ambiance-extraction layer that drives
 // the procedural 3D scene). This is a fixed demo dataset, not a live API.
 
+// Travel time estimates are approximate walking times from Nice's central
+// square, Place Massena - a reasonable fixed reference point for a
+// single-city demo, not a live routing API.
+export const TRAVEL_TIME_FROM = 'Nice city center (Place Massena), on foot'
+
 export const SPOTS = [
   {
     id: 'promenade-des-anglais',
@@ -11,6 +16,7 @@ export const SPOTS = [
     tags: ['relax', 'beach', 'scenic', 'walking'],
     costLevel: 1, // 1 (free/cheap) - 5 (expensive)
     durationHours: 2,
+    travelTimeMinutes: 5,
     tagline: 'The iconic seafront promenade along the Baie des Anges.',
     reviews: [
       "Walked the promenade at sunset and it was breathtaking - the light on the water, the palm trees, the old hotels lining the bay. Very relaxed, mostly couples and joggers.",
@@ -26,6 +32,7 @@ export const SPOTS = [
     tags: ['culture', 'food', 'crowded', 'historic'],
     costLevel: 2,
     durationHours: 3,
+    travelTimeMinutes: 3,
     tagline: 'A maze of narrow pastel-colored streets, markets, and cafes.',
     reviews: [
       "Got pleasantly lost in the tiny alleys - tall ochre and terracotta buildings, laundry lines overhead, tiny family-run bistros everywhere.",
@@ -41,6 +48,7 @@ export const SPOTS = [
     tags: ['adventure', 'scenic', 'hike', 'viewpoint'],
     costLevel: 1,
     durationHours: 2,
+    travelTimeMinutes: 15,
     tagline: 'A hilltop park with ruins, a waterfall, and panoramic views.',
     reviews: [
       "Steep walk up through pine trees and old stone ruins, but the view over the whole bay at the top is unbeatable, especially for sunrise.",
@@ -56,6 +64,7 @@ export const SPOTS = [
     tags: ['food', 'culture', 'crowded', 'market'],
     costLevel: 2,
     durationHours: 1,
+    travelTimeMinutes: 5,
     tagline: 'A bustling open-air flower and food market in the old town.',
     reviews: [
       "Rows of flower stalls, olives, spices, and local cheese - very colorful and photogenic, but tight and crowded by mid-morning.",
@@ -71,6 +80,7 @@ export const SPOTS = [
     tags: ['relax', 'scenic', 'quiet', 'harbor'],
     costLevel: 1,
     durationHours: 1,
+    travelTimeMinutes: 20,
     tagline: 'A quiet pastel-colored harbor with yachts and fishing boats.',
     reviews: [
       "Much quieter than the main promenade - pastel yellow and orange buildings wrap around a calm harbor full of sailboats.",

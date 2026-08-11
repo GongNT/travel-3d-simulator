@@ -3,11 +3,13 @@ import { Canvas } from '@react-three/fiber'
 import SceneGenerator from './SceneGenerator'
 import WalkController from './WalkController'
 import { extractAmbiance } from '../lib/ambiance'
+import { PHOTO_REVIEW_REWARD } from '../lib/tokens'
 
-export default function WalkScene({ spot, onBack }) {
+export default function WalkScene({ spot, onBack, onClaimPhotoReward }) {
   const [ambiance, setAmbiance] = useState(null)
   const [error, setError] = useState(null)
   const [locked, setLocked] = useState(false)
+  const [rewardClaimed, setRewardClaimed] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -30,6 +32,21 @@ export default function WalkScene({ spot, onBack }) {
       <button className="back-button" onClick={onBack}>
         &larr; Back to results
       </button>
+
+      {ambiance && !rewardClaimed && (
+        <button
+          className="photo-reward-button"
+          onClick={() => {
+            setRewardClaimed(true)
+            onClaimPhotoReward?.()
+          }}
+        >
+          Share 5 photos + a review (+{PHOTO_REVIEW_REWARD} tokens)
+        </button>
+      )}
+      {rewardClaimed && (
+        <p className="photo-reward-thanks">Thanks! +{PHOTO_REVIEW_REWARD} tokens added (demo).</p>
+      )}
 
       {error && (
         <div className="scene-overlay">

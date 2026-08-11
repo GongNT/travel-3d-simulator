@@ -149,6 +149,7 @@
 }
 
 .preferences-form button,
+.destination-step button,
 .results-list button,
 .walk-scene button {
   font-family: inherit;
@@ -171,7 +172,8 @@
   box-shadow: 0 6px 16px rgba(242, 114, 75, 0.45);
 }
 
-.preferences-form button:disabled {
+.preferences-form button:disabled,
+.results-list .spot-card button:disabled {
   opacity: 0.6;
   cursor: default;
   box-shadow: none;
@@ -184,6 +186,29 @@
   margin-bottom: 1rem;
   box-shadow: none !important;
   font-weight: 700 !important;
+}
+
+.results-list-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.results-list-top .back-button {
+  margin-bottom: 0;
+}
+
+.report-button {
+  background: transparent !important;
+  color: var(--forest-deep) !important;
+  border: 1px solid var(--forest) !important;
+  padding: 0.4rem 0.9rem !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  font-size: 0.85rem !important;
 }
 
 .error-text {
@@ -243,6 +268,12 @@
 
 .tagline {
   color: var(--ink-soft);
+  margin: 0;
+}
+
+.travel-time {
+  color: var(--ocean-deep);
+  font-size: 0.85rem;
   margin: 0;
 }
 
@@ -313,4 +344,165 @@
   opacity: 0.9;
   margin-top: 1rem !important;
   color: var(--sun-light);
+}
+
+/* --- header layout with token balance --- */
+.app-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- token balance + buy panel --- */
+.token-balance {
+  position: relative;
+  z-index: 2;
+}
+
+.token-pill {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  padding: 0.5rem 1rem !important;
+  font-weight: 700 !important;
+  box-shadow: none !important;
+}
+
+.token-buy-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.token-buy-title {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.25rem;
+}
+
+.token-bundle-button {
+  background: var(--sand) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--sand-dark) !important;
+  border-radius: 8px !important;
+  padding: 0.6rem 0.8rem !important;
+  font-weight: 600 !important;
+  width: 100%;
+  box-shadow: none !important;
+}
+
+/* --- destination step --- */
+.destination-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 500px;
+  background: #fff;
+  border: 1px solid var(--sand-dark);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(11, 79, 108, 0.08);
+}
+
+.destination-step label {
+  font-weight: 700;
+  color: var(--forest-deep);
+}
+
+.destination-step input {
+  font-size: 1rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--sand-dark);
+  background: var(--sand);
+  color: var(--ink);
+}
+
+.destination-note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+/* --- plan editor sliders --- */
+.plan-editor {
+  background: #fff;
+  border: 1px solid var(--sand-dark);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 18px rgba(27, 67, 50, 0.06);
+}
+
+.plan-editor-title {
+  font-weight: 700;
+  color: var(--forest-deep);
+  margin-bottom: 0.15rem;
+}
+
+.plan-editor-hint {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
+
+.plan-editor-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.plan-editor-row label {
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.plan-editor-row input[type='range'] {
+  accent-color: var(--ocean);
+}
+
+.plan-editor-categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 1.5rem;
+  margin-top: 0.4rem;
+}
+
+/* --- photo reward button (walk scene) --- */
+.photo-reward-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: linear-gradient(135deg, var(--sun) 0%, var(--coral) 100%) !important;
+  color: #fff !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 999px;
+  font-size: 0.85rem !important;
+}
+
+.photo-reward-thanks {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--forest-deep);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
