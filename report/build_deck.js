@@ -123,7 +123,7 @@ function footer(slide, dark = false) {
   slide.addShape('roundRect', { x: 6.85, y: 2.05, w: 5.55, h: 4.6, rectRadius: 0.12, fill: { color: SAND }, line: { color: FOREST, width: 1.25 } });
   slide.addText('2. Roam in 3D', { x: 7.2, y: 2.35, w: 5, h: 0.5, fontFace: SAFE_HEADER, fontSize: 19, bold: true, color: FOREST_DEEP, margin: 0 });
   const l2 = [
-    'Traveler walks a spot in 3D (131 tokens)',
+    'Traveler unlocks all spots in 3D once (89 tokens)',
     'LLM reads that spot\'s curated reviews',
     'Extracts ground / sky / palette / props (fixed catalog)',
     'Seeded layout builds a walkable Three.js scene',
@@ -169,7 +169,7 @@ function footer(slide, dark = false) {
     'Picks ground, sky, palette, and props from a fixed catalog',
     'A seeded algorithm places everything — same input, same scene',
     'Explorable in first person: WASD + mouse-look',
-    'Share 5 photos + a review, earn 35 tokens back',
+    'Share 3 photos + a review per spot, earn 30 tokens back',
   ];
   slide.addText(pts.map((t, i) => ({ text: t, options: { bullet: { code: '2022' }, breakLine: i < pts.length - 1, color: WHITE, fontSize: 14.5 } })), {
     x: 0.6, y: 1.5, w: 5, h: 4.0, fontFace: SAFE_BODY, paraSpaceAfter: 14, margin: 0,
@@ -277,8 +277,8 @@ function footer(slide, dark = false) {
     ['Small token bundle', '$0.80 -> 100 tokens'],
     ['Large token bundle', '$4.00 -> 600 tokens (~17% off)'],
     ['Generate a plan (search)', '69 tokens (~$0.46-0.55)'],
-    ['Walk a spot in 3D', '131 tokens (~$0.87-1.05)'],
-    ['Share 5 photos + a review', '+35 tokens back'],
+    ['Unlock 3D walking (all spots)', '89 tokens (~$0.60-0.71, one-time)'],
+    ['Share 3 photos + a review, per spot', '+30 tokens back'],
   ];
   slide.addTable(rows.map((r, i) => r.map((c) => ({
     text: c,
@@ -310,7 +310,7 @@ function footer(slide, dark = false) {
   slide.addShape('roundRect', { x: 0.9, y: 1.5, w: 11.2, h: 1.85, rectRadius: 0.1, fill: { color: SUN, transparency: 85 }, line: { color: SUN, width: 1.25 } });
   slide.addText('Headline idea: crowdsourced photos, real rewards', { x: 1.2, y: 1.7, w: 10.6, h: 0.45, fontFace: SAFE_HEADER, fontSize: 17, bold: true, color: SUN_LIGHT, margin: 0 });
   slide.addText(
-    'Travelers upload up to 5 of their own photos per spot -> vision model extracts richer ambiance -> traveler earns a real 35-token reward. '
+    'Travelers upload up to 3 of their own photos per spot -> vision model extracts richer ambiance -> traveler earns a real 30-token reward per spot. '
     + 'Fully legitimate (user-submitted, not scraped). Needs accounts, storage, and moderation — a real backend, deliberately out of scope for now.',
     { x: 1.2, y: 2.15, w: 10.6, h: 1.1, fontFace: SAFE_BODY, fontSize: 13.5, color: WHITE, margin: 0 },
   );

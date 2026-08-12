@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber'
 import SceneGenerator from './SceneGenerator'
 import WalkController from './WalkController'
 import { extractAmbiance } from '../lib/ambiance'
-import { PHOTO_REVIEW_REWARD } from '../lib/tokens'
+import { PHOTO_REVIEW_REWARD, PHOTO_REVIEW_MIN_PHOTOS } from '../lib/tokens'
 
 export default function WalkScene({ spot, onBack, onClaimPhotoReward }) {
   const [ambiance, setAmbiance] = useState(null)
@@ -41,7 +41,7 @@ export default function WalkScene({ spot, onBack, onClaimPhotoReward }) {
             onClaimPhotoReward?.()
           }}
         >
-          Share 5 photos + a review (+{PHOTO_REVIEW_REWARD} tokens)
+          Share {PHOTO_REVIEW_MIN_PHOTOS} photos + a review (+{PHOTO_REVIEW_REWARD} tokens)
         </button>
       )}
       {rewardClaimed && (

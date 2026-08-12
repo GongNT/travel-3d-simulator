@@ -146,12 +146,12 @@ const tokenTable = new Table({
     ]}),
     new TableRow({ children: [
       tableCell('Walk a spot in 3D', { width: tokenColWidths[0] }),
-      tableCell('131 tokens', { width: tokenColWidths[1] }),
-      tableCell('≈ $0.87-1.05 depending on bundle', { width: tokenColWidths[2] }),
+      tableCell('89 tokens (one-time, unlocks all spots)', { width: tokenColWidths[1] }),
+      tableCell('≈ $0.60-0.71, once per session', { width: tokenColWidths[2] }),
     ]}),
     new TableRow({ children: [
-      tableCell('Share 5 photos + a review', { width: tokenColWidths[0] }),
-      tableCell('+35 tokens (refund)', { width: tokenColWidths[1] }),
+      tableCell('Share 3 photos + a review, per spot', { width: tokenColWidths[0] }),
+      tableCell('+30 tokens (refund, repeatable per spot)', { width: tokenColWidths[1] }),
       tableCell('Rewards user-submitted content', { width: tokenColWidths[2] }),
     ]}),
   ],
@@ -232,7 +232,7 @@ const doc = new Document({
       ),
       p(
         'CNR’s pitched business model is a simulated token economy — $0.80 for 100 tokens, $4.00 for 600 tokens, 69 '
-        + 'tokens to generate a plan, 131 tokens to walk a spot in 3D, and a 35-token refund for travelers who share '
+        + 'tokens to generate a plan, and a one-time 89-token payment to unlock 3D walking for every spot for the rest of the session. Travelers who share '
         + 'five of their own reference photos plus a review. Per the project’s scope for this submission, the token '
         + 'economy is presentation only: it is fully implemented as local, in-memory application state so the demo '
         + 'feels like the real product, but no real payment processing, accounts, or persistence exist (see Section '
@@ -273,9 +273,9 @@ const doc = new Document({
       p(
         'User journey: choose a destination (locked to Nice, France in this demo) → describe your interests in free '
         + 'text → CNR spends 69 tokens to generate a ranked plan with a plain-language explanation → fine-tune the '
-        + 'plan live with budget/time/category sliders, which re-rank instantly at no extra token cost → spend 131 '
+        + 'plan live with budget/time/category sliders, which re-rank instantly at no extra token cost → spend 89 '
         + 'tokens to walk the chosen spot in an interactive first-person 3D scene → optionally share five photos and '
-        + 'a review of that spot for a 35-token refund. Inputs: a free-text interest description and, optionally, '
+        + '3 photos plus a review of any spot for a 30-token refund, repeatable per spot. Inputs: a free-text interest description and, optionally, '
         + 'slider adjustments. Outputs: a ranked list of curated Nice locations with a numeric score, a per-factor '
         + 'breakdown (preference match, cost fit, time fit), a natural-language explanation, and a walkable 3D scene '
         + 'for any spot.',
@@ -368,7 +368,7 @@ const doc = new Document({
       p('Figures 2–4 show the application end-to-end, captured directly from a running instance.'),
       ...figure(`${FIG}/cnr_01_destination.png`, 1280, 900, 560, 'Figure 2. The destination step — locked to Nice, France for this demo, with an honest note that more destinations are a roadmap item.'),
       ...figure(`${FIG}/cnr_03_results_editor.png`, 1280, 1774, 560, 'Figure 3. The live plan editor and ranked results: sliders for budget, time, and each category re-rank the five curated spots instantly, at no extra token cost. Cours Saleya Market scores highest (0.94) for this traveler.'),
-      ...figure(`${FIG}/cnr_04_walk.png`, 1280, 900, 560, 'Figure 4. The 3D walk scene generated for Cours Saleya Market — market stalls, warm ochre building facades, and cobblestone ground, with the "share 5 photos + a review" token-reward prompt visible top-right.'),
+      ...figure(`${FIG}/cnr_04_walk.png`, 1280, 900, 560, 'Figure 4. The 3D walk scene generated for Cours Saleya Market — market stalls, warm ochre building facades, and cobblestone ground, with the "share 3 photos + a review" token-reward prompt visible top-right.'),
       h2('3.2 What works and what does not'),
       pRuns([bold('Works:')]),
       bullet('Preference parsing reliably produces sane, bounded structured weights from varied free-text inputs.'),
@@ -389,7 +389,7 @@ const doc = new Document({
       h2('3.4 Economics'),
       p(
         'CNR’s pitched pricing (Appendix C) is $0.80 for 100 tokens or $4.00 for 600 tokens (a ~17% bulk discount), '
-        + 'with a plan search costing 69 tokens (≈$0.46-0.55) and a 3D walk costing 131 tokens (≈$0.87-1.05). The '
+        + 'with a plan search costing 69 tokens (≈$0.46-0.55) and a one-time 89-token payment (≈$0.60-0.71) unlocking 3D walking for every spot for the rest of the session. The '
         + 'application performs at most two LLM calls per paid action — one preference-parsing call per search (a few '
         + 'hundred tokens of API usage) and one ambiance-extraction call per spot walked (a few hundred tokens, '
         + 'dominated by the four curated reviews included in the prompt) — plus any number of free, local re-ranks '
@@ -450,7 +450,7 @@ const doc = new Document({
         'The most concrete near-term extension is one we scoped down for this submission on purpose: letting '
         + 'travelers upload their own reference photos per spot (up to five, as reflected in the UI’s reward prompt), '
         + 'using a vision-capable model call to extract richer, more accurate ambiance details directly from those '
-        + 'photos instead of review text alone, and genuinely crediting the 35-token reward rather than simulating '
+        + 'photos instead of review text alone, and genuinely crediting the 30-token-per-spot reward rather than simulating '
         + 'it. This is fully legitimate from a copyright standpoint (user-submitted content, not scraped), and would '
         + 'let the 3D scenes for a location improve incrementally as more travelers contribute photos. We '
         + 'deliberately did not attempt the full version of this for the current submission — it requires user '

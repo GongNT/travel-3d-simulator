@@ -21,6 +21,7 @@ export default function App() {
   const [prefsSummary, setPrefsSummary] = useState('')
   const [activeSpot, setActiveSpot] = useState(null)
   const [balance, setBalance] = useState(STARTING_BALANCE)
+  const [has3DAccess, setHas3DAccess] = useState(false)
 
   function handleBuyTokens(amount) {
     setBalance((b) => b + amount)
@@ -58,8 +59,11 @@ export default function App() {
   }
 
   function handleEnter(spot) {
-    if (balance < WALK_3D_COST) return
-    setBalance((b) => b - WALK_3D_COST)
+    if (!has3DAccess) {
+      if (balance < WALK_3D_COST) return
+      setBalance((b) => b - WALK_3D_COST)
+      setHas3DAccess(true)
+    }
     setActiveSpot(spot)
     setScreen('walk')
   }
@@ -106,7 +110,8 @@ export default function App() {
           onPrefsChange={handlePrefsChange}
           onEnter={handleEnter}
           onRestart={handleRestart}
-          canAffordWalk={balance >= WALK_3D_COST}
+          canAffordWalk={has3DAccess || balance >= WALK_3D_COST}
+          has3DAccess={has3DAccess}
         />
       )}
 

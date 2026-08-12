@@ -51,9 +51,11 @@ layout algorithm places those props into a walkable Three.js scene.
 ## Simulated token economy (presentation only - no real payment)
 
 CNR's pitched business model is token-based: $0.80 -> 100 tokens, $4.00 -> 600
-tokens, a plan search costs 69 tokens, and walking a spot in 3D costs 131
-tokens. Sharing 5 photos + a review for a spot refunds 35 tokens. **None of
-this moves real money** - `src/lib/tokens.js` holds the constants, and the
+tokens, a plan search costs 69 tokens, and a one-time 89-token payment unlocks
+3D walking for every spot for the rest of the session (not per spot). Sharing
+3 photos + a review for a spot refunds 30 tokens, and can be repeated per
+spot. **None of this moves real money** - `src/lib/tokens.js` holds the
+constants, and the
 whole balance lives in local React state (`App.jsx`) purely to make the demo
 feel like the real product. The "buy tokens" panel just adds to that local
 balance; the photo-reward button does the same without any actual photo
@@ -96,6 +98,6 @@ export const MODEL = 'gpt-5.6-luna'
 - Real payment processing and persistent accounts for the token economy.
 - Full photo-upload flow: travelers submit their own reference photos, a
   vision-capable model uses them to generate richer, more accurate ambiance
-  than review text alone, and the 35-token reward becomes real.
+  than review text alone, and the 30-token-per-spot reward becomes real.
 - Hotel/flight booking and other token-gated add-on services.
 - Expansion beyond the single Nice, France demo dataset.

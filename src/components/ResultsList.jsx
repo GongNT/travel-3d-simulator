@@ -3,7 +3,7 @@ import { WALK_3D_COST } from '../lib/tokens'
 import { generatePlanReport, downloadPlanReport } from '../lib/planReport'
 
 export default function ResultsList({
-  scored, explanation, prefsSummary, prefs, onPrefsChange, onEnter, onRestart, canAffordWalk,
+  scored, explanation, prefsSummary, prefs, onPrefsChange, onEnter, onRestart, canAffordWalk, has3DAccess,
 }) {
   function handleDownloadReport() {
     const report = generatePlanReport({ prefsSummary, explanation, scored })
@@ -43,13 +43,18 @@ export default function ResultsList({
               <span>time fit {breakdown.timeScore.toFixed(2)}</span>
             </div>
             <button onClick={() => onEnter(spot)} disabled={!canAffordWalk}>
-              Walk around {spot.name} - {WALK_3D_COST} tokens
+              {has3DAccess
+                ? `Walk around ${spot.name}`
+                : `Walk around ${spot.name} - ${WALK_3D_COST} tokens (unlocks all spots)`}
             </button>
           </div>
         ))}
       </div>
-      {!canAffordWalk && (
-        <p className="error-text">Not enough tokens for a 3D walk - buy more above.</p>
+      {!has3DAccess && !canAffordWalk && (
+        <p className="error-text">Not enough tokens for 3D access - buy more above.</p>
+      )}
+      {has3DAccess && (
+        <p className="unlock-note">3D walk unlocked for every spot this session.</p>
       )}
     </div>
   )
