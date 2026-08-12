@@ -45,3 +45,35 @@ export async function chatJSON(messages) {
   const content = data.choices[0].message.content
   return JSON.parse(content)
 }
+
+/**
+ * Calls the chat completions endpoint with function-tool definitions
+ * attached. Real tool-calling works fine on this model as long as
+ * reasoning_effort is explicitly set (the same quirk chatJSON works around) -
+ * confirmed via direct API testing. Returns the raw assistant message
+ * (which may contain tool_calls instead of content).
+ */
+export async function chatWithTools(messages, tools) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getApiKey()}`,
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      messages,
+      tools,
+      tool_choice: 'auto',
+      reasoning_effort: 'none',
+    }),
+  })
+
+  if (!res.ok) {
+    const body = await res.text()
+    throw new Error(`OpenAI API error (${res.status}): ${body}`)
+  }
+
+  const data = await res.json()
+  return data.choices[0].message
+}

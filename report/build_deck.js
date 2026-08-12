@@ -185,11 +185,44 @@ function footer(slide, dark = false) {
   const slide = pres.addSlide();
   lightBg(slide);
   slide.addText('How the AI Is Used', { x: 0.6, y: 0.35, w: 8, h: 0.6, fontFace: SAFE_HEADER, fontSize: 26, bold: true, color: INK, margin: 0 });
-  slide.addText('Two narrow LLM extraction steps; the decisions themselves — including the live editor — are ordinary deterministic code.', {
+  slide.addText('Three lanes of narrow LLM steps; every decision and every agent tool call bottoms out in ordinary deterministic code.', {
     x: 0.6, y: 0.95, w: 12, h: 0.4, fontFace: SAFE_BODY, fontSize: 14, italic: true, color: INK_SOFT, margin: 0,
   });
-  slide.addImage({ path: `${FIG}/architecture.png`, x: 0.6, y: 1.5, w: 12.1, h: 5.77 * (620 / 1300) });
+  {
+    const archW = 9.6;
+    const archH = archW * (760 / 1300);
+    slide.addImage({ path: `${FIG}/architecture.png`, x: (13.33 - archW) / 2, y: 1.55, w: archW, h: archH });
+  }
   footer(slide, false);
+}
+
+// ---------- 6b. Demo: concierge agent ----------
+{
+  const slide = pres.addSlide();
+  darkBg(slide);
+  slide.addText('Demo — Ask the Concierge (Lane 3)', { x: 0.6, y: 0.4, w: 10, h: 0.6, fontFace: SAFE_HEADER, fontSize: 25, bold: true, color: WHITE, margin: 0 });
+  slide.addText('A real tool-calling agent - four tools, each a thin wrapper around a function the app already trusted.', {
+    x: 0.6, y: 0.95, w: 12, h: 0.4, fontFace: SAFE_BODY, fontSize: 13.5, italic: true, color: 'CFE3E8', margin: 0,
+  });
+  {
+    const imgW = 8.0;
+    const imgH = imgW * (270 / 912);
+    slide.addImage({ path: `${FIG}/concierge_chat.png`, x: 4.6, y: 2.2, w: imgW, h: imgH });
+    slide.addShape('roundRect', { x: 4.6, y: 2.2, w: imgW, h: imgH, rectRadius: 0.04, fill: { type: 'none' }, line: { color: SUN, width: 1.5 } });
+  }
+  const pts = [
+    'adjust_plan - "make it cheaper" re-ranks live',
+    'get_spot_details - answers grounded in curated reviews',
+    'unlock_and_walk - "walk me around the market" opens the 3D scene',
+    'download_report - saves the plan report',
+  ];
+  slide.addText(pts.map((t, i) => ({ text: t, options: { bullet: { code: '2022' }, breakLine: i < pts.length - 1, color: WHITE, fontSize: 14.5 } })), {
+    x: 0.6, y: 1.6, w: 3.7, h: 4.5, fontFace: SAFE_BODY, paraSpaceAfter: 16, margin: 0,
+  });
+  slide.addText('Capped at 4 tool-call rounds per turn - no runaway loops.', {
+    x: 0.6, y: 6.3, w: 4, h: 0.6, fontFace: SAFE_BODY, fontSize: 12, italic: true, color: '9FB8B0', margin: 0,
+  });
+  footer(slide, true);
 }
 
 // ---------- 7. Design principle ----------
@@ -197,8 +230,8 @@ function footer(slide, dark = false) {
   const slide = pres.addSlide();
   lightBg(slide);
   slide.addText('One Design Principle', { x: 0.9, y: 0.6, w: 9, h: 0.7, fontFace: SAFE_HEADER, fontSize: 30, bold: true, color: INK, margin: 0 });
-  slide.addText('The LLM translates. It never decides.', {
-    x: 0.9, y: 1.35, w: 10.5, h: 0.6, fontFace: SAFE_BODY, fontSize: 17, italic: true, color: INK_SOFT, margin: 0,
+  slide.addText('Lanes 1-2: the LLM translates, it never decides. Lane 3 may act - but only through tools that wrap trusted code.', {
+    x: 0.9, y: 1.35, w: 11, h: 0.6, fontFace: SAFE_BODY, fontSize: 15.5, italic: true, color: INK_SOFT, margin: 0,
   });
 
   slide.addShape('roundRect', { x: 0.9, y: 2.35, w: 5.55, h: 3.9, rectRadius: 0.12, fill: { color: SUN, transparency: 88 }, line: { color: SUN, width: 1.25 } });

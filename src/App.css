@@ -221,6 +221,77 @@
   font-size: 0.9rem;
 }
 
+/* --- concierge chat --- */
+.concierge-chat {
+  background: #fff;
+  border: 1px solid var(--sand-dark);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 18px rgba(27, 67, 50, 0.06);
+}
+
+.concierge-title {
+  font-weight: 700;
+  color: var(--forest-deep);
+  margin-bottom: 0.15rem;
+}
+
+.concierge-hint {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.75rem;
+}
+
+.concierge-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 260px;
+  overflow-y: auto;
+  margin-bottom: 0.75rem;
+}
+
+.concierge-bubble {
+  padding: 0.5rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  max-width: 85%;
+  line-height: 1.35;
+}
+
+.concierge-bubble--user {
+  align-self: flex-end;
+  background: var(--ocean);
+  color: #fff;
+}
+
+.concierge-bubble--assistant {
+  align-self: flex-start;
+  background: var(--sand);
+  color: var(--ink);
+}
+
+.concierge-input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.concierge-input-row input {
+  flex: 1;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--sand-dark);
+  background: var(--sand);
+  color: var(--ink);
+}
+
+.concierge-input-row button {
+  padding: 0.55rem 1.1rem !important;
+  border-radius: 10px !important;
+}
+
 .prefs-summary {
   font-style: italic;
   color: var(--ink-soft);

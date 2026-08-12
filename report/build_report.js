@@ -201,12 +201,12 @@ const doc = new Document({
       tocLine('Executive Summary', 3),
       tocLine('1. Introduction', 4),
       tocLine('2. Implementation', 6),
-      tocLine('3. Results and Analysis', 8),
-      tocLine('4. Conclusion', 12),
-      tocLine('References', 13),
-      tocLine('Appendix A: Curated Demo Dataset', 14),
-      tocLine('Appendix B: Repository Structure', 15),
-      tocLine('Appendix C: Simulated Token Pricing', 16),
+      tocLine('3. Results and Analysis', 9),
+      tocLine('4. Conclusion', 14),
+      tocLine('References', 15),
+      tocLine('Appendix A: Curated Demo Dataset', 16),
+      tocLine('Appendix B: Repository Structure', 17),
+      tocLine('Appendix C: Simulated Token Pricing', 18),
       new Paragraph({ children: [new PageBreak()] }),
 
       // Executive summary
@@ -282,12 +282,12 @@ const doc = new Document({
       ),
       h2('1.4 Our generative AI angle'),
       p(
-        'We use OpenAI’s gpt-5.6-luna model via the Chat Completions API in strict JSON-object response mode for two '
-        + 'narrowly-scoped extraction tasks, and deliberately keep the LLM out of the parts of the system where '
-        + 'correctness and reproducibility matter most:',
+        'We use OpenAI’s gpt-5.6-luna model via the Chat Completions API for three distinct roles, and deliberately '
+        + 'keep the LLM out of the parts of the system where correctness and reproducibility matter most:',
       ),
-      bullet('Preferences → weights: the LLM converts free text into structured numeric weights (budget level, time budget, category weights for relax/adventure/culture/food). It does not do the ranking itself.'),
-      bullet('Reviews → ambiance: the LLM reads a spot’s curated visitor reviews and extracts a structured "ambiance" specification — ground type, sky mood, a three-color palette, and 3–6 props — chosen only from fixed enumerated catalogs. It does not emit raw 3D geometry or coordinates.'),
+      bullet('Preferences → weights: the LLM converts free text into structured numeric weights (budget level, time budget, category weights for relax/adventure/culture/food), via strict JSON-object mode. It does not do the ranking itself.'),
+      bullet('Reviews → ambiance: the LLM reads a spot’s curated visitor reviews and extracts a structured "ambiance" specification — ground type, sky mood, a three-color palette, and 3–6 props — chosen only from fixed enumerated catalogs, also via JSON-object mode. It does not emit raw 3D geometry or coordinates.'),
+      bullet('Concierge agent: a chat-based tool-calling agent (Section 2.4) that can call four bounded tools to adjust the plan, look up spot details, unlock the 3D walk, or download the report. Unlike the first two roles, this one genuinely chooses and sequences actions - the bound is on what the tools can do, not on the model\'s autonomy within the conversation.'),
       bullet('The ranking itself (scoreSpots()), the live slider-driven re-ranking, and the 3D prop placement (layoutPositions()) are all ordinary deterministic code with no LLM involvement, so the same inputs always produce the same output — an explicit design choice, not an oversight.'),
       h2('1.5 Limitations of the status quo'),
       bullet('Google Maps / Street View: comprehensive real-world coverage and real imagery, but zero personalization, ranking, or reasoning about a traveler’s specific constraints.'),
@@ -315,7 +315,7 @@ const doc = new Document({
       h1('2. Implementation'),
       h2('2.1 System description'),
       p(
-        'The application is a single-page React app with two independent pipelines ("lanes"), shown in Figure 1, plus '
+        'The application is a single-page React app with three independent pipelines ("lanes"), shown in Figure 1, plus '
         + 'a deterministic live plan editor layered on top of Lane 1. Lane 1 (the decision engine) runs once per '
         + 'session: free-text preferences go through an LLM parsing step into structured weights, which a '
         + 'deterministic scoring function uses to rank the five curated spots; those same weights are then exposed as '
@@ -323,9 +323,11 @@ const doc = new Document({
         + 'review-driven 3D walk) runs whenever the traveler selects a spot to walk around: that spot’s curated '
         + 'reviews go through a second LLM call that extracts a structured ambiance specification, which a '
         + 'deterministic, seeded layout algorithm turns into prop placements for a React Three Fiber (Three.js) scene, '
-        + 'explorable with a first-person WASD + mouse-look controller built on the browser’s Pointer Lock API.',
+        + 'explorable with a first-person WASD + mouse-look controller built on the browser’s Pointer Lock API. Lane 3 '
+        + '(the concierge agent) is available on demand from a chat panel on the results screen: it is a genuine '
+        + 'tool-calling agent, described in full in Section 2.4.',
       ),
-      ...figure(`${FIG}/architecture.png`, 1300, 620, 580, 'Figure 1. System architecture — the two-lane pipeline (LLM steps in orange, deterministic code in green). The live plan editor reuses Lane 1’s scoreSpots() function directly, so it required no new LLM integration.'),
+      ...figure(`${FIG}/architecture.png`, 1300, 760, 580, 'Figure 1. System architecture — the three-lane pipeline (LLM steps in orange, deterministic code in green). Lane 3, the concierge agent, is the project’s actual agentic-flow example: every tool it calls wraps a function Lanes 1-2 already use.'),
       h2('2.2 Stack and integration'),
       bullet('Frontend: React 19 + Vite 8, no backend/server component in this demo.'),
       bullet('3D rendering: three.js via @react-three/fiber and @react-three/drei (Pointer Lock controls, procedural sky).'),
@@ -344,17 +346,28 @@ const doc = new Document({
         + 'reasoning_effort: "none" on every call. This keeps both LLM integrations working reliably and is a small '
         + 'but concrete example of the kind of model-specific debugging real generative-AI integration work requires.',
       ),
-      h2('2.4 Agentic flow'),
+      h2('2.4 Agentic flow: the concierge agent'),
       p(
-        'This project does not use an autonomous multi-step agent with open-ended tool access. We deliberately chose '
-        + 'a bounded, two-call pipeline per lane instead: each LLM call has one job, a fixed output schema, and no '
-        + 'ability to call further tools or take further actions on its own. For a decision-support tool where a '
-        + 'traveler needs to trust and verify the reasoning, we judged reproducibility and auditability to be more '
-        + 'important than autonomy — the live plan editor is the clearest expression of that choice, since it lets '
-        + 'travelers adjust the outcome themselves through ordinary math rather than by re-prompting an LLM. Figure 1 '
-        + 'doubles as the agentic-flow diagram: each orange box is one LLM call with a fixed system prompt and JSON '
-        + 'schema; each green box is ordinary application code.',
+        'Lanes 1 and 2 are deliberately bounded, non-agentic LLM calls — one job, one fixed JSON schema, no ability '
+        + 'to take further action. Lane 3, the concierge chat, is a genuine tool-calling agent: a traveler sends a '
+        + 'free-text message, and the model can choose to call one or more of four tools before replying, in a loop '
+        + '(src/lib/conciergeAgent.js, runConciergeTurn()) capped at four rounds so a confused model cannot loop '
+        + 'indefinitely.',
       ),
+      bulletRuns([bold('adjust_plan — '), new TextRun('merges partial weight changes ("cheaper", "more adventurous") into the current preferences and re-ranks via the same scoreSpots() Lane 1 uses.')]),
+      bulletRuns([bold('get_spot_details — '), new TextRun('returns a spot\'s tagline, cost, duration, travel time, and full curated reviews, so the model answers questions (e.g. "is it crowded?") grounded only in that data, not general knowledge.')]),
+      bulletRuns([bold('unlock_and_walk — '), new TextRun('resolves a fuzzy spot name ("the market") to a real spot, checks token balance before acting, and calls the same onEnter() handler the "Walk around X" button uses.')]),
+      bulletRuns([bold('download_report — '), new TextRun('calls the existing generatePlanReport()/downloadPlanReport() pair from Section 2.2.')]),
+      p(
+        'The design constraint that makes this safe to demo: every tool is a thin wrapper around a function the app '
+        + 'already trusted before the agent existed. The model cannot execute arbitrary code, reach the network '
+        + 'itself, or do anything a button in the UI couldn\'t already do — it only decides which existing action to '
+        + 'take and with what arguments. Real-world tool calling on gpt-5.6-luna required the same fix noted in '
+        + 'Section 2.3 (reasoning_effort: "none"); we confirmed this directly against the API (a raw request with '
+        + 'tools attached and reasoning_effort: "none" correctly returned a tool_calls response) before building the '
+        + 'UI around it.',
+      ),
+      ...figure(`${FIG}/concierge_chat.png`, 912, 270, 560, 'Figure 2. The concierge agent answering a question via get_spot_details() - the reply is grounded entirely in Castle Hill\'s curated reviews, not invented.'),
       h2('2.5 Repository and how to run'),
       pRuns([new TextRun('Repository: '), new ExternalHyperlink({ link: GITHUB_URL, children: [new TextRun({ text: GITHUB_URL, color: '0C8599', underline: {} })] })]),
       bullet('npm install'),
@@ -365,20 +378,22 @@ const doc = new Document({
       // 3. Results and Analysis
       h1('3. Results and Analysis'),
       h2('3.1 Evidence'),
-      p('Figures 2–4 show the application end-to-end, captured directly from a running instance.'),
-      ...figure(`${FIG}/cnr_01_destination.png`, 1280, 900, 560, 'Figure 2. The destination step — locked to Nice, France for this demo, with an honest note that more destinations are a roadmap item.'),
-      ...figure(`${FIG}/cnr_03_results_editor.png`, 1280, 1774, 560, 'Figure 3. The live plan editor and ranked results: sliders for budget, time, and each category re-rank the five curated spots instantly, at no extra token cost. Cours Saleya Market scores highest (0.94) for this traveler.'),
-      ...figure(`${FIG}/cnr_04_walk.png`, 1280, 900, 560, 'Figure 4. The 3D walk scene generated for Cours Saleya Market — market stalls, warm ochre building facades, and cobblestone ground, with the "share 3 photos + a review" token-reward prompt visible top-right.'),
+      p('Figures 3–5 show the application end-to-end, captured directly from a running instance.'),
+      ...figure(`${FIG}/cnr_01_destination.png`, 1280, 900, 560, 'Figure 3. The destination step — locked to Nice, France for this demo, with an honest note that more destinations are a roadmap item.'),
+      ...figure(`${FIG}/cnr_03_results_editor.png`, 1280, 1774, 560, 'Figure 4. The live plan editor and ranked results: sliders for budget, time, and each category re-rank the five curated spots instantly, at no extra token cost. Cours Saleya Market scores highest (0.94) for this traveler.'),
+      ...figure(`${FIG}/cnr_04_walk.png`, 1280, 900, 560, 'Figure 5. The 3D walk scene generated for Cours Saleya Market — market stalls, warm ochre building facades, and cobblestone ground, with the "share 3 photos + a review" token-reward prompt visible top-right.'),
       h2('3.2 What works and what does not'),
       pRuns([bold('Works:')]),
       bullet('Preference parsing reliably produces sane, bounded structured weights from varied free-text inputs.'),
       bullet('The scoring engine is fully transparent and reproducible: identical inputs always produce identical rankings and explanations, and the live sliders re-rank correctly and instantly — verified by pushing the "adventure" weight to 1.00 and watching Castle Hill jump to the top spot with a matching, updated explanation.'),
       bullet('Ambiance extraction produces scenes that are visibly appropriate to each location — a market scene for the market, a harbor scene for the harbor, a beachfront scene for the promenade — without any hand-authored per-spot visual logic.'),
       bullet('The simulated token flow (search cost, walk cost, and photo-review refund) deducts and credits correctly and disables actions the traveler cannot currently afford.'),
+      bullet('The concierge agent correctly selects and sequences tools across varied phrasing: "make it cheaper and more adventurous" triggered adjust_plan and visibly re-ranked the plan; "what\'s the best time to visit Castle Hill and is it crowded?" triggered get_spot_details and answered using only that spot\'s review text (Figure 2); "take me to walk around the market" resolved the fuzzy name to Cours Saleya Market via unlock_and_walk and opened the 3D scene.'),
       pRuns([bold('Brittle or AI-sloppy behavior:')]),
       bullet('The LLM occasionally omits the required chart/prop content when a slide or scene is marked as the "visual" element; we mitigate this with a fixed enumerated catalog plus a sanitize() validation step (src/lib/ambiance.js) that clamps or repairs invalid values rather than trusting raw model output outright.'),
       bullet('First-person WASD movement is implemented with standard, independent keydown/keyup listeners, but our automated headless-browser testing during development showed inconsistent results, most likely due to requestAnimationFrame throttling in a backgrounded automation tab rather than an application defect — this needs a final confirmation pass with a real user in a real foreground browser.'),
       bullet('Mouse-look (Pointer Lock API) requires a genuine user gesture and does not engage in some restricted or automated browser contexts; it worked correctly in manual testing with a real click.'),
+      bullet('An early version of the concierge chat rendered the assistant\'s final reply twice per turn - the agent loop already appended the reply to its own message history before returning it, and the UI appended it again. Caught during verification and fixed by treating the returned message list as the single source of truth rather than re-adding to it.'),
       h2('3.3 Informal testing'),
       p(
         'Testing so far has been manual click-through testing during development — submitting varied preference '
@@ -418,7 +433,7 @@ const doc = new Document({
         + 'categoryScore comes directly from the LLM-derived (or slider-adjusted) preference weights, costScore and '
         + 'timeScore are linear penalty functions against the spot’s cost level and duration, and tagBonus is a small '
         + 'additive nudge for secondary tag overlap (src/lib/scoring.js) — which is why a very strong match can push '
-        + 'the displayed score slightly above 100. For the example in Figure 3 ("a relaxed five-hour trip with a '
+        + 'the displayed score slightly above 100. For the example in Figure 4 ("a relaxed five-hour trip with a '
         + 'mid-range budget and enjoyable food along the way"), Cours Saleya Market scored 0.94 — a strong preference '
         + 'match (0.80) combined with a perfect cost fit (1.00) and time fit (1.00) — narrowly ahead of Promenade des '
         + 'Anglais at 0.93. Because every factor is a plain arithmetic function over structured inputs, a user (or '
@@ -498,7 +513,8 @@ const doc = new Document({
       new Paragraph({ children: [new PageBreak()] }),
       h1('Appendix B: Repository Structure'),
       bullet('Separation of concerns: src/lib/ (LLM + scoring + token logic), src/three/ (3D rendering), src/components/ (UI), src/data/ (curated dataset).'),
-      bullet('src/lib/openai.js — thin fetch() wrapper around the Chat Completions API, JSON-object mode.'),
+      bullet('src/lib/openai.js — thin fetch() wrapper around the Chat Completions API, both JSON-object mode (chatJSON) and tool-calling mode (chatWithTools).'),
+      bullet('src/lib/conciergeAgent.js — the concierge agent\'s tool schemas, tool dispatch, and the bounded (max 4 rounds) tool-calling loop.'),
       bullet('src/lib/preferences.js — free text → structured weights.'),
       bullet('src/lib/scoring.js — deterministic weighted multi-criteria ranking engine, shared by the initial search and the live plan editor.'),
       bullet('src/lib/ambiance.js — reviews → structured ambiance spec (ground/sky/palette/props), with a sanitize() step that validates against fixed enumerated catalogs.'),
@@ -510,6 +526,7 @@ const doc = new Document({
       bullet('src/three/rng.js — seeded PRNG and deterministic layout algorithms (scatter, lined path, radial cluster, perimeter).'),
       bullet('src/three/Props.jsx, Ground.jsx, SceneLighting.jsx, SceneGenerator.jsx — the Three.js scene assembly.'),
       bullet('src/three/WalkController.jsx — first-person WASD + mouse-look controller (Pointer Lock API).'),
+      bullet('src/components/ConciergeChat.jsx — the concierge chat UI (message history, input, loading state).'),
       bullet('src/components/Decor.jsx — hand-drawn SVG palm tree and mountain decor for the ocean/forest/sun theme (no external images).'),
 
       new Paragraph({ children: [new PageBreak()] }),

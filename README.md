@@ -47,6 +47,13 @@ layout algorithm places those props into a walkable Three.js scene.
    `src/three/Props.jsx`.
 9. **Walk**: `src/three/WalkController.jsx` gives first-person WASD movement
    with mouse-look (click the scene to lock the pointer, Esc to release).
+10. **Concierge agent**: a chat panel on the results screen
+    (`src/components/ConciergeChat.jsx`) backed by a genuine tool-calling
+    agent (`src/lib/conciergeAgent.js`). It can call four tools -
+    `adjust_plan`, `get_spot_details`, `unlock_and_walk`, `download_report` -
+    each a thin wrapper around a function the app already uses elsewhere, so
+    the model can act but never do anything a button in the UI couldn't
+    already do. The loop is capped at 4 tool-call rounds per turn.
 
 ## Simulated token economy (presentation only - no real payment)
 

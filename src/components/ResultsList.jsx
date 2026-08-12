@@ -1,9 +1,10 @@
 import PlanEditor from './PlanEditor'
+import ConciergeChat from './ConciergeChat'
 import { WALK_3D_COST } from '../lib/tokens'
 import { generatePlanReport, downloadPlanReport } from '../lib/planReport'
 
 export default function ResultsList({
-  scored, explanation, prefsSummary, prefs, onPrefsChange, onEnter, onRestart, canAffordWalk, has3DAccess,
+  scored, explanation, prefsSummary, prefs, onPrefsChange, onEnter, onRestart, canAffordWalk, has3DAccess, balance,
 }) {
   function handleDownloadReport() {
     const report = generatePlanReport({ prefsSummary, explanation, scored })
@@ -25,6 +26,16 @@ export default function ResultsList({
       {explanation && <p className="explanation">{explanation}</p>}
 
       {prefs && onPrefsChange && <PlanEditor prefs={prefs} onChange={onPrefsChange} />}
+
+      <ConciergeChat
+        prefs={prefs}
+        onPrefsChange={onPrefsChange}
+        scored={scored}
+        onEnter={onEnter}
+        balance={balance}
+        has3DAccess={has3DAccess}
+        onDownloadReport={handleDownloadReport}
+      />
 
       <div className="cards">
         {scored.map(({ spot, score, breakdown }, i) => (

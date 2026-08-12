@@ -112,6 +112,7 @@ export default function App() {
           onRestart={handleRestart}
           canAffordWalk={has3DAccess || balance >= WALK_3D_COST}
           has3DAccess={has3DAccess}
+          balance={balance}
         />
       )}
 
