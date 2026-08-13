@@ -1,14 +1,14 @@
 import PlanEditor from './PlanEditor'
 import ConciergeChat from './ConciergeChat'
 import { WALK_3D_COST } from '../lib/tokens'
-import { generatePlanReport, downloadPlanReport } from '../lib/planReport'
+import { generatePlanReportPDF, downloadPlanReportPDF } from '../lib/planReport'
 
 export default function ResultsList({
   scored, explanation, prefsSummary, prefs, onPrefsChange, onEnter, onRestart, canAffordWalk, has3DAccess, balance,
 }) {
   function handleDownloadReport() {
-    const report = generatePlanReport({ prefsSummary, explanation, scored })
-    downloadPlanReport(report)
+    const doc = generatePlanReportPDF({ prefsSummary, explanation, scored, prefs })
+    downloadPlanReportPDF(doc)
   }
 
   return (
