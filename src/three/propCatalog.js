@@ -7,6 +7,7 @@ export const PROP_TYPES = [
   'pineTree',
   'beachChair',
   'stoneBuilding',
+  'facadeBuilding',
   'marketStall',
   'flowerStall',
   'lantern',
@@ -16,12 +17,15 @@ export const PROP_TYPES = [
   'sailboat',
   'cafeTable',
   'archway',
+  'stripedAwning',
+  'bellTower',
+  'stringLights',
 ]
 
 export const GROUND_TYPES = ['sand', 'cobblestone', 'grass', 'stonePlaza', 'harborDeck']
 
 export const SKY_MOODS = ['sunnyBlue', 'goldenHour', 'overcast', 'twilight']
 
-export const LAYOUTS = ['scatter', 'linedPath', 'radialCluster', 'perimeter']
+export const LAYOUTS = ['scatter', 'linedPath', 'radialCluster', 'perimeter', 'narrowAlley']
 
 export const DENSITIES = ['sparse', 'moderate', 'dense']

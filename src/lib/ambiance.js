@@ -10,6 +10,15 @@ pick a more accurate palette and prop mix - e.g. the real Promenade des Anglais 
 building facades and a turquoise sea, not generic blue. Fall back to the reviews alone if you don't recognize \
 the place.
 
+For a dense old-town district (e.g. Vieux Nice, Cours Saleya) - narrow alleys, tall close-set shuttered \
+facades, market/cafe awnings, a church or clock tower over a small square - prefer layout "narrowAlley" \
+(a tight two-sided street canyon, denser than "linedPath"), groundType "cobblestone", and props drawn from \
+"facadeBuilding" (multi-floor shuttered building, replaces plain "stoneBuilding" for tighter streets), \
+"stripedAwning" (cafe/market storefront canopy), "bellTower" (a square clock/bell tower for a square or \
+church-adjacent spot), and "stringLights" (warm lights strung overhead, for an evening/lively mood). Use a \
+warm ochre or terracotta "primary" with a muted green or blue-grey "secondary" for shutters, and a red or \
+mustard "accent" for awnings/lights.
+
 Respond with a single JSON object, no markdown, matching exactly this shape:
 
 {

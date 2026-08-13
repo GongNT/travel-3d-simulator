@@ -31,6 +31,8 @@ export function layoutPositions(layout, count, rng) {
       return radialCluster(count, rng)
     case 'perimeter':
       return perimeter(count, rng)
+    case 'narrowAlley':
+      return narrowAlley(count, rng)
     case 'scatter':
     default:
       return scatter(count, rng)
@@ -73,6 +75,22 @@ function radialCluster(count, rng) {
       x: Math.cos(angle) * radius,
       z: Math.sin(angle) * radius,
       rotationY: rng() * Math.PI * 2,
+    })
+  }
+  return out
+}
+
+function narrowAlley(count, rng) {
+  // A tight two-sided street canyon (buildings almost facing each other),
+  // for dense old-town alleys - much closer than linedPath's open street.
+  const out = []
+  for (let i = 0; i < count; i++) {
+    const side = i % 2 === 0 ? -1 : 1
+    const t = Math.floor(i / 2) / Math.max(1, Math.ceil(count / 2) - 1)
+    out.push({
+      x: side * (2.4 + rng() * 0.8),
+      z: (t * 2 - 1) * BOUNDS,
+      rotationY: side === -1 ? Math.PI / 2 : -Math.PI / 2,
     })
   }
   return out
