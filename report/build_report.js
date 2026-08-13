@@ -380,15 +380,15 @@ const doc = new Document({
       h2('3.1 Evidence'),
       p('Figures 3–5 show the application end-to-end, captured directly from a running instance.'),
       ...figure(`${FIG}/cnr_01_destination.png`, 1280, 900, 560, 'Figure 3. The destination step — locked to Nice, France for this demo, with an honest note that more destinations are a roadmap item.'),
-      ...figure(`${FIG}/cnr_03_results_editor.png`, 1280, 1774, 560, 'Figure 4. The live plan editor and ranked results: sliders for budget, time, and each category re-rank the five curated spots instantly, at no extra token cost. Cours Saleya Market scores highest (0.94) for this traveler.'),
-      ...figure(`${FIG}/cnr_04_walk.png`, 1280, 900, 560, 'Figure 5. The 3D walk scene generated for Cours Saleya Market — market stalls, warm ochre building facades, and cobblestone ground, with the "share 3 photos + a review" token-reward prompt visible top-right.'),
+      ...figure(`${FIG}/cnr_03_results_editor.png`, 1280, 1774, 560, 'Figure 4. The live plan editor and ranked results: sliders for budget, time, and each category re-rank the five curated spots instantly, at no extra token cost. Promenade des Anglais scores highest (0.93) for this traveler, narrowly ahead of Port de Nice (0.93, lower time fit) and Cours Saleya Market (0.89).'),
+      ...figure(`${FIG}/cnr_04_walk.png`, 1280, 900, 560, 'Figure 5. The 3D walk scene generated for Promenade des Anglais — stylized low-poly seafront buildings on warm ochre and teal, with the "share 3 photos + a review" token-reward prompt visible top-right.'),
       h2('3.2 What works and what does not'),
       pRuns([bold('Works:')]),
       bullet('Preference parsing reliably produces sane, bounded structured weights from varied free-text inputs.'),
       bullet('The scoring engine is fully transparent and reproducible: identical inputs always produce identical rankings and explanations, and the live sliders re-rank correctly and instantly — verified by pushing the "adventure" weight to 1.00 and watching Castle Hill jump to the top spot with a matching, updated explanation.'),
       bullet('Ambiance extraction produces scenes that are visibly appropriate to each location — a market scene for the market, a harbor scene for the harbor, a beachfront scene for the promenade — without any hand-authored per-spot visual logic.'),
       bullet('The simulated token flow (search cost, walk cost, and photo-review refund) deducts and credits correctly and disables actions the traveler cannot currently afford.'),
-      bullet('The concierge agent correctly selects and sequences tools across varied phrasing: "make it cheaper and more adventurous" triggered adjust_plan and visibly re-ranked the plan; "what\'s the best time to visit Castle Hill and is it crowded?" triggered get_spot_details and answered using only that spot\'s review text (Figure 2); "take me to walk around the market" resolved the fuzzy name to Cours Saleya Market via unlock_and_walk and opened the 3D scene.'),
+      bullet('The concierge agent correctly selects and sequences tools across varied phrasing: "make it cheaper and more adventurous" triggered adjust_plan and visibly re-ranked the plan; "what\'s the best time to visit Castle Hill and is it crowded?" triggered get_spot_details and answered using only that spot\'s review text (Figure 2); "take me for a walk along the seafront" resolved the fuzzy phrasing to Promenade des Anglais via unlock_and_walk and opened the 3D scene.'),
       pRuns([bold('Brittle or AI-sloppy behavior:')]),
       bullet('The LLM occasionally omits the required chart/prop content when a slide or scene is marked as the "visual" element; we mitigate this with a fixed enumerated catalog plus a sanitize() validation step (src/lib/ambiance.js) that clamps or repairs invalid values rather than trusting raw model output outright.'),
       bullet('First-person WASD movement is implemented with standard, independent keydown/keyup listeners, but our automated headless-browser testing during development showed inconsistent results, most likely due to requestAnimationFrame throttling in a backgrounded automation tab rather than an application defect — this needs a final confirmation pass with a real user in a real foreground browser.'),
@@ -434,9 +434,9 @@ const doc = new Document({
         + 'timeScore are linear penalty functions against the spot’s cost level and duration, and tagBonus is a small '
         + 'additive nudge for secondary tag overlap (src/lib/scoring.js) — which is why a very strong match can push '
         + 'the displayed score slightly above 100. For the example in Figure 4 ("a relaxed five-hour trip with a '
-        + 'mid-range budget and enjoyable food along the way"), Cours Saleya Market scored 0.94 — a strong preference '
-        + 'match (0.80) combined with a perfect cost fit (1.00) and time fit (1.00) — narrowly ahead of Promenade des '
-        + 'Anglais at 0.93. Because every factor is a plain arithmetic function over structured inputs, a user (or '
+        + 'mid-range budget and enjoyable food along the way"), Promenade des Anglais scored 0.93 — a strong preference '
+        + 'match (0.80) combined with a perfect cost fit (1.00) and time fit (1.00) — narrowly ahead of Port de Nice, '
+        + 'which tied on overall score (0.93) but scored lower on time fit. Because every factor is a plain arithmetic function over structured inputs, a user (or '
         + 'grader) can verify the ranking by hand from the numbers shown on screen, and can watch it update live by '
         + 'moving a slider — the explicit goal of treating the LLM as a translator into structured data, never as the '
         + 'decision-maker itself.',
